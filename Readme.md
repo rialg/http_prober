@@ -1,7 +1,7 @@
 # WIP
 ### Simple HTTP prober in Rust
 
-Three configuration parameters available:
+Configuration parameters available:
 
 * `period`: How many seconds should it wait between probes
 * `ip_and_port`: Target. To be replaced by URL and port
