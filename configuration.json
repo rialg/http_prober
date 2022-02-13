@@ -1,7 +1,8 @@
 {
 
   "period": 3 ,
-  "ip_and_port": "127.0.0.1:80",
+  "hostname": "localhost",
+  "port": 80,
   "uri": "/",
   "threshold" : 2 
 

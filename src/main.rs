@@ -10,13 +10,13 @@ use http_prober::prober_logic::*;
 #[derive(Serialize, Deserialize)]
 struct Config {
   period: u64,
-  ip_and_port: String,
+  hostname: String,
+  port: i16,
   uri: String,
   threshold: u16
 }
 
 fn main() {
-    // TODO: Add a file with the OCI spec
 
     let mut f = File::open("configuration.json").unwrap();
     let mut json_config = String::new();
@@ -25,7 +25,7 @@ fn main() {
     let mut counter = 0;
 
     loop { 
-      if let Ok(msg) = probe(&config.ip_and_port, &config.uri) {
+      if let Ok(msg) = probe(&config.hostname, config.port, &config.uri) {
     
           match check_response(&msg) {
             

@@ -3,6 +3,8 @@ pub mod prober_logic {
     use std::net::TcpStream;
     use std::time::Duration;
 
+    use dns_lookup::lookup_host;
+
     use regex::Regex;
 
     #[derive(Debug)]
@@ -13,13 +15,16 @@ pub mod prober_logic {
 
     }
 
-    pub fn probe(ip_and_port: &str, uri: &str) -> std::io::Result<String>{
+    pub fn probe(hostname: &str, port: i16, uri: &str) -> std::io::Result<String>{
+
+        let ips: Vec<std::net::IpAddr> = lookup_host(hostname).unwrap();
+        let ip_and_port: String = ips[0].to_string()+":"+&port.to_string();
 
         if let Ok(mut stream) = TcpStream::connect(ip_and_port) {
           println!("Connected to the server!");
           stream.write(format!("GET {} HTTP/1.1\n
-                         Host: www.google.com\n
-                         Connection: close", uri).as_bytes())?;
+                         Host: {}\n
+                         Connection: close", uri, hostname).as_bytes())?;
           stream.flush()?;
 
           match stream.set_read_timeout(Some(Duration::new(5,0)))
